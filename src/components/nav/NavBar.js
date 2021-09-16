@@ -1,35 +1,28 @@
 import React from "react"
 import { Link, useHistory } from "react-router-dom"
-import "./navbar.css"
-// import Logo from "../logo1.jpeg"
+import "./NavBar.css"
 
 export const NavBar = () => {
     const history = useHistory()
-
     return (
         <ul className="navbar">
-            {/* <li className="navbar__item">
-                <Link to="/"><img className="navbar__logo" src={Logo} /></Link>
-            </li> */}
             <li className="navbar__item">
-                <Link className="navbar__link" to="/AllPosts">All Posts</Link>
+                <Link className="nav-link" to="/talks">Talks</Link>
             </li>
             <li className="navbar__item">
-                <Link className="navbar__link" to="/MyPosts">My Posts</Link>
+                <Link className="nav-link" to="/works">Works</Link>
             </li>
             <li className="navbar__item">
-                <Link className="navbar__link" to="/Categories">Category Manager</Link>
-            </li>
-            <li className="navbar__item">
-                <Link className="navbar__link" to="/Tags">Tag Manager</Link>
+                <Link className="nav-link" to="/profile">Profile</Link>
             </li>
             {
-                (localStorage.getItem("rare_user_id") !== null) ?
-                    <li className="navbar__item">
-                        <button className="navbar__link fakeLink"
+                (localStorage.getItem("ll_token") !== null) ?
+                    <li className="nav-item">
+                        <button className="nav-link fakeLink"
                             onClick={() => {
-                                localStorage.removeItem("rare_user_id")
-                                history.push({ pathname: "/" })
+                                localStorage.removeItem("ll_token")
+                                localStorage.removeItem("ll_username")
+                                history.push("/")
                             }}
                         >Logout</button>
                     </li> :

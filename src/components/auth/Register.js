@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
 import { Link, useHistory } from "react-router-dom"
-import "./auth.css"
+import "./Auth.css"
 
 export const Register = (props) => {
     const firstName = useRef()
@@ -14,7 +14,7 @@ export const Register = (props) => {
     const history = useHistory()
 
     const handleRegister = (e) => {
-        e.preventDefault()
+        e.prTalkDefault()
 
         if (password.current.value === verifyPassword.current.value) {
             const newUser = {

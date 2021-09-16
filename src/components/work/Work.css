@@ -1,0 +1,19 @@
+.Section__Post{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Post_img{
+    width: 20rem;
+    height: 20rem;
+}
+.post__info{
+    margin: 5rem;
+}
+.form-group-cat{
+    margin-left: 1rem;
+}
+
+.form-control-radio{
+    display: flex;
+}

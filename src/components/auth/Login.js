@@ -1,13 +1,13 @@
 import React, { useRef } from "react"
 import { Link, useHistory } from "react-router-dom"
-import "./auth.css"
+import "./Auth.css"
 
 
 export const Login = () => {
-    const username = React.createRef()
-    const password = React.createRef()
-    const invalidDialog = React.createRef()
-    // const history = useHistory()
+    const username = useRef()
+    const password = useRef()
+    const invalidDialog = useRef()
+    const history = useHistory()
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -15,8 +15,7 @@ export const Login = () => {
         return fetch("http://localhost:8000/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 username: username.current.value,
@@ -28,7 +27,7 @@ export const Login = () => {
                 if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem( "ll_token", res.token )
                     localStorage.setItem( "ll_username", username.current.value)
-                    // history.push("/")
+                    history.push("/")
                 }
                 else {
                     invalidDialog.current.showModal()
@@ -39,7 +38,7 @@ export const Login = () => {
     return (
         <main className="container--login">
             <dialog className="dialog dialog--auth" ref={invalidDialog}>
-                <div>EUsername or password was not valid.</div>
+                <div>Username or password was not valid.</div>
                 <button className="button--close" onClick={e => invalidDialog.current.close()}>Close</button>
             </dialog>
             <section>
