@@ -30,6 +30,9 @@ export const WorkList = (props) => {
                         <div className="work__title">{work.title} by {work.author}</div>
                         <div className="Work__description">Work Description: {work.description}</div>
                         <div className="Work__type">Work Type: {work.work_type.label}</div>   
+                        <div className="Work__identifier">Work Identifier: {work.identifier}</div>
+                        <div className="Work__urllink">URL Link: {work.url_link}</div>   
+                        <div className="Work__urllink">Posted by: {work.posted_by.user.first_name}</div>
                     </section>
                 })
             }

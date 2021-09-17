@@ -11,15 +11,14 @@ export const WorkForm = () => {
     const [currentWork, setCurrentWork] = useState({
         title: "",
         author: "",
-        workType: 0,
+        workType_id: 0,
         description: "",
         identifier: "",
-        url_link: "",
-        posted_by: 0, //need to set to current user
+        urlLink: "",  //Do I need posted by field here?
         genres: []
     })
 
-    const {workId} = useParams()
+    const { workId } = useParams()
 
 
     useEffect(() => {
@@ -33,11 +32,11 @@ export const WorkForm = () => {
                     id: parseInt(workId),
                     title: work.title,
                     author: work.author,
-                    workType: work.workType,
+                    workTypeTd: work.workTypeTd,
                     description: work.description,
                     identifier: work.identifier,
-                    url_link: work.url_link,
-                    posted_by: work.posted_by.id,
+                    urlLink: work.urlLink,
+                    postedById: work.postedById,
                     genres: [work.genres]
                 })
             })
@@ -63,10 +62,21 @@ export const WorkForm = () => {
                     />
                 </div>
             </fieldset>
+
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="WorkTypeId">Work Type: </label>
-                    <select name="WorkTypeId" className="form-control" value={currentWork.workTypeId} onChange={handleControlledInputChange}>
+                    <label htmlFor="author">Author: </label>
+                    <input type="text" name="author" required autoFocus className="form-control"
+                        value={currentWork.author}
+                        onChange={handleControlledInputChange}
+                    />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="work_type_id">Work Type: </label>
+                    <select name="work_type_id" className="form-control" value={currentWork.work_type_id} onChange={handleControlledInputChange}>
                         <option value="0">Select a type</option>
                         {workTypes.map(wt => (
                             <option key={wt.id} value={wt.id}>
@@ -111,13 +121,15 @@ export const WorkForm = () => {
                             // Prevent form from being submitted
                             evt.preventDefault()
                             editWork({
-                                id: parseInt(workId),
-                                name: currentWork.name,
+                                id: currentWork.id,
+                                title: currentWork.title,
+                                author: currentWork.author,
+                                work_type_id: parseInt(currentWork.work_type_id),
                                 description: currentWork.description,
-                                maker: currentWork.maker,
-                                number_of_players: parseInt(currentWork.numberOfPlayers),
-                                WorkTypeId: parseInt(currentWork.WorkTypeId),
-                                WorkrId: parseInt(currentWork.WorkrId)
+                                identifier: currentWork.identifier,
+                                url_link: currentWork.url_link,
+                                posted_by_id: currentWork.posted_by_id,
+                                genres: [currentWork.genres]
                             })
                                 .then(() => history.push("/works"))
                         }}
@@ -129,12 +141,14 @@ export const WorkForm = () => {
                             evt.preventDefault()
 
                             const Work = {
-                                name: currentWork.name,
+                                title: currentWork.title,
+                                author: currentWork.author,
+                                work_type_id: parseInt(currentWork.work_type_id),
                                 description: currentWork.description,
-                                maker: currentWork.maker,
-                                number_of_players: parseInt(currentWork.numberOfPlayers),
-                                WorkTypeId: parseInt(currentWork.WorkTypeId),
-                                WorkrId: parseInt(currentWork.WorkrId)
+                                identifier: currentWork.identifier,
+                                url_link: currentWork.url_link,
+                                posted_by_id: currentWork.posted_byId,
+                                genres: [currentWork.genres]
                             }
 
                             createWork(Work)

@@ -18,10 +18,10 @@ export const TalkForm = () => {
         time: 0,
         title: "",
         description: "",
-        sup_materials: "",
-        zoom_meeting_id:"",
-        zoom_meeting_password: "",
-        participants: []
+        supMaterials: "",
+        zoomMeetingId:"",
+        zoomMeetingPassword: "",
+        participantIds: [1]
     })
 
     useEffect(() => {
@@ -95,18 +95,53 @@ export const TalkForm = () => {
                 </div>
             </fieldset>
 
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="sup_materials">Supplimentary Materials: </label>
+                    <input type="text" name="supMaterials" required autoFocus className="form-control"
+                        value={currentTalk.supMaterials}
+                        onChange={changeTalkState}
+                    />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="zoomMeetingId">Zoom Meeting Id: </label>
+                    <input type="text" name="zoomMeetingId" required autoFocus className="form-control"
+                        value={currentTalk.zoomMeetingId}
+                        onChange={changeTalkState}
+                    />
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="zoomMeetingPassword">Meeting Password: </label>
+                    <input type="text" name="zoomMeetingPassword" required autoFocus className="form-control"
+                        value={currentTalk.zoomMeetingPassword}
+                        onChange={changeTalkState}
+                    />
+                </div>
+            </fieldset>
+
+
 
             <button type="submit"
                 onClick={evt => {
                     evt.preventDefault()
 
                     const talk = {
+                        hostId: parseInt(currentTalk.hostId),
+                        workId: parseInt(currentTalk.workId),
                         title: currentTalk.title,
                         date: currentTalk.date,
                         time: currentTalk.time,
-                        workId: parseInt(currentTalk.workId),
                         description: currentTalk.description,
-                        hostId: parseInt(currentTalk.hostId)
+                        supMaterials: currentTalk.supMaterials,
+                        zoomMeetingId: currentTalk.zoomMeetingId,
+                        zoomMeetingPassword: currentTalk.zoomMeetingPassword
+                        // participantIds: currentTalk.participantsIds
                     }
 
                     createTalk(talk)

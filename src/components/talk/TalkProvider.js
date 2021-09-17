@@ -24,7 +24,21 @@ export const TalkProvider = (props) => {
             },
             body: JSON.stringify(talk)
         })
-        .then(getTalks)
+            .then(response => response.json())
+            .then(getTalks)
+    }
+
+    const editTalk = (talk) => {
+        return fetch(`http://localhost:8000/talks/${talk.id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(talk)
+        })
+            .then(response => response.json())
+            .then(getTalks)
     }
 
     const leaveTalk = talkId => {
@@ -49,7 +63,7 @@ export const TalkProvider = (props) => {
     }
 
     return (
-        <TalkContext.Provider value={{ talks, getTalks, createTalk, joinTalk, leaveTalk}} >
+        <TalkContext.Provider value={{ talks, getTalks, createTalk, editTalk, joinTalk, leaveTalk}} >
             { props.children }
         </TalkContext.Provider>
     )

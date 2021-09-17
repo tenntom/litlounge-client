@@ -42,11 +42,13 @@ export const TalkList = (props) => {
                             }
                             @ {talk.time}
                         </div>
+                        <div>
                         {
                             talk.joined
                                 ?<button className="btn btn-3" onClick={() => leaveTalk(talk.id)}>Leave</button>
                                 :<button className="btn btn-2" onClick={() => joinTalk(talk.id)}>Join</button>
                         }
+                        </div>
                     </section>
                 })
             }
