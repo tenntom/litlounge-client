@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react"
 import { ProfileContext } from "./ProfileProvider.js"
 import "./Auth.css"
+import "/home/tenntom/workspace/lit-client/src/index.css"
 
 
 export const Profile = () => {
@@ -33,7 +34,9 @@ export const Profile = () => {
                     {
                         profile.talks.map(talk => {
                             return <div key={talk.id} className="registration">
-                                <div className="Work:">{talk.work.title}</div>
+                                <div className="registration_title">Title: {talk.title}</div>
+                                <div className="registration_host">Host: {talk.host.user.first_name} {talk.host.user.last_name}</div>
+                                <div className="registration_work">Work: {talk.work.title}</div>
                                 <div>{talk.description}</div>
                                 <div>
                                     {talk.date} @ {talk.time}

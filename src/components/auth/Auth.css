@@ -68,3 +68,11 @@ fieldset {
     min-width: 15rem;
     min-height: 5rem;
 }
+
+.registration {
+    border: 1px red solid;
+    margin: 1em;
+    padding: 1em;
+}
+
+

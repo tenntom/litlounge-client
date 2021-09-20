@@ -42,10 +42,11 @@ export const TalkProvider = (props) => {
     }
 
     const leaveTalk = talkId => {
-        return fetch(`http://localhost:8000/talks/${ talkId }/signup`, {
+        return fetch(`http://localhost:8000/talks/${talkId}/signup`, {
             method: "DELETE",
             headers:{
-                "Authorization": `Token ${localStorage.getItem("ll_token")}`
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+                "Content-Type": "application/json"
             }
         })
             .then(getTalks)
@@ -55,11 +56,12 @@ export const TalkProvider = (props) => {
         return fetch(`http://localhost:8000/talks/${talkId}/signup`, {
             method: "POST",
             headers:{
-                "Authorization": `Token ${localStorage.getItem("ll_token")}`
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+                "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
-            .then(getTalks)
+        .then(response => response.json())    
+        .then(getTalks)
     }
 
     return (

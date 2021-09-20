@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react"
 import { TalkContext } from "./TalkProvider.js"
 import { useHistory } from "react-router-dom"
 import "./Talk.css"
+import "/home/tenntom/workspace/lit-client/src/index.css"
 
 export const TalkList = (props) => {
     const { talks, getTalks, joinTalk, leaveTalk } = useContext(TalkContext)
@@ -42,7 +43,16 @@ export const TalkList = (props) => {
                             }
                             @ {talk.time}
                         </div>
-                        <div>
+                        <div className="participants">
+                            Current Participants: 
+                            {
+                                talk.participants.map(participant => {
+                                   return(participant.user.first_name)
+                                })
+                            }
+                             
+                        </div>
+                        <div className="talk-joined-btns">
                         {
                             talk.joined
                                 ?<button className="btn btn-3" onClick={() => leaveTalk(talk.id)}>Leave</button>
