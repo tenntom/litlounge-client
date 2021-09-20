@@ -21,6 +21,8 @@ export const WorkForm = () => {
 
     const { workId } = useParams()
 
+    console.log(genres)
+
 
     useEffect(() => {
         getWorkTypes()
@@ -38,11 +40,15 @@ export const WorkForm = () => {
                     description: work.description,
                     identifier: work.identifier,
                     urlLink: work.url_link,
-                    postedById: work.postedById,
+                    postedById: work.posted_by.id,
                     genres: work.genres
                 })
             })
     }, [workId])
+
+    // useEffect(() => {
+    //     setWorkGenres()
+    // })
 
 
     const handleControlledInputChange = (event) => {
@@ -128,13 +134,16 @@ export const WorkForm = () => {
                         genres.map(g => {
                             return (
                                 <>
-                                    <input type="checkbox" name="workGenre" value={g.id} onClick={() => {
-                                        const copyOfWorkGenres = [...workGenres];
-                                        g.id in copyOfWorkGenres
-                                            ? copyOfWorkGenres.pop(g.id)
-                                            : copyOfWorkGenres.push(g.id)
-                                    }}>
-                                        {g.label}</input>
+                                    <input type="checkbox" name="workGenre" value={g.id} 
+                                    onClick={() => {
+                                        console.log(g.id)
+                                        // const copyOfWorkGenres = [...workGenres];
+                                        // g.id in copyOfWorkGenres
+                                        // ? copyOfWorkGenres.pop(g.id)
+                                        // : copyOfWorkGenres.push(g.id)
+                                    }}
+                                    />
+                                    <label htmlFor="workGenre">{g.label}</label>
                                 </>
                             )
                         })
@@ -152,12 +161,12 @@ export const WorkForm = () => {
                                 id: currentWork.id,
                                 title: currentWork.title,
                                 author: currentWork.author,
-                                workTypeTd: parseInt(currentWork.workTypeId),
+                                workTypeId: parseInt(currentWork.workTypeId),
                                 description: currentWork.description,
                                 identifier: currentWork.identifier,
                                 urlLink: currentWork.urlLink,
                                 postedById: currentWork.postedById,
-                                genres: [currentWork.genres]
+                                genres: [3,4]
                             })
                                 .then(() => history.push("/works"))
                         }}
@@ -176,7 +185,7 @@ export const WorkForm = () => {
                                 identifier: currentWork.identifier,
                                 urlLink: currentWork.url_link,
                                 postedById: currentWork.postedById,
-                                genres: [currentWork.genres]
+                                genres: [1,2]
                             }
 
                             createWork(Work)
