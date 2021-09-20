@@ -44,11 +44,11 @@ export const TalkList = (props) => {
                             @ {talk.time}
                         </div>
                         <div className="participants">
-                            Current Participants: 
+                            Current Participants:{" "} 
                             {
                                 talk.participants.map(participant => {
                                    return(participant.user.first_name)
-                                })
+                                }).join(", ")
                             }
                              
                         </div>

@@ -11,7 +11,7 @@ export const WorkForm = () => {
     const [currentWork, setCurrentWork] = useState({
         title: "",
         author: "",
-        workType_id: 0,
+        workTypeId: 0,
         description: "",
         identifier: "",
         urlLink: "",  //Do I need posted by field here?
@@ -32,10 +32,10 @@ export const WorkForm = () => {
                     id: parseInt(workId),
                     title: work.title,
                     author: work.author,
-                    workTypeTd: work.workTypeTd,
+                    workTypeId: parseInt(work.work_type.id),
                     description: work.description,
                     identifier: work.identifier,
-                    urlLink: work.urlLink,
+                    urlLink: work.url_link,
                     postedById: work.postedById,
                     genres: [work.genres]
                 })
@@ -76,7 +76,7 @@ export const WorkForm = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="work_type_id">Work Type: </label>
-                    <select name="work_type_id" className="form-control" value={currentWork.work_type_id} onChange={handleControlledInputChange}>
+                    <select name="work_type_id" className="form-control" value={currentWork.workTypeId} onChange={handleControlledInputChange}>
                         <option value="0">Select a type</option>
                         {workTypes.map(wt => (
                             <option key={wt.id} value={wt.id}>
@@ -108,7 +108,7 @@ export const WorkForm = () => {
                 <div className="form-group">
                     <label htmlFor="url_link">Url Link: </label>
                     <input type="text" name="url_link" required autoFocus className="form-control"
-                        value={currentWork.url_link}
+                        value={currentWork.urlLink}
                         onChange={handleControlledInputChange}
                     />
                 </div>
@@ -124,16 +124,16 @@ export const WorkForm = () => {
                                 id: currentWork.id,
                                 title: currentWork.title,
                                 author: currentWork.author,
-                                work_type_id: parseInt(currentWork.work_type_id),
+                                workTypeTd: parseInt(currentWork.workTypeId),
                                 description: currentWork.description,
                                 identifier: currentWork.identifier,
-                                url_link: currentWork.url_link,
-                                posted_by_id: currentWork.posted_by_id,
+                                urlLink: currentWork.urlLink,
+                                postedById: currentWork.postedById,
                                 genres: [currentWork.genres]
                             })
                                 .then(() => history.push("/works"))
                         }}
-                        className="btn btn-primary">Edit</button>
+                        className="btn btn-primary">Update</button>
 
                     : <button type="submit"
                         onClick={evt => {
@@ -143,11 +143,11 @@ export const WorkForm = () => {
                             const Work = {
                                 title: currentWork.title,
                                 author: currentWork.author,
-                                work_type_id: parseInt(currentWork.work_type_id),
+                                workTypeId: parseInt(currentWork.workTypeId),
                                 description: currentWork.description,
                                 identifier: currentWork.identifier,
-                                url_link: currentWork.url_link,
-                                posted_by_id: currentWork.posted_byId,
+                                urlLink: currentWork.url_link,
+                                postedById: currentWork.posted_byId,
                                 genres: [currentWork.genres]
                             }
 

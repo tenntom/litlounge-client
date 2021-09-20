@@ -21,7 +21,7 @@ export const TalkForm = () => {
         supMaterials: "",
         zoomMeetingId:"",
         zoomMeetingPassword: "",
-        participantIds: [1]
+        participantIds: []
     })
 
     useEffect(() => {
@@ -141,7 +141,6 @@ export const TalkForm = () => {
                         supMaterials: currentTalk.supMaterials,
                         zoomMeetingId: currentTalk.zoomMeetingId,
                         zoomMeetingPassword: currentTalk.zoomMeetingPassword
-                        // participantIds: currentTalk.participantsIds
                     }
 
                     createTalk(talk)

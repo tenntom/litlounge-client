@@ -64,6 +64,8 @@ export const TalkProvider = (props) => {
         .then(getTalks)
     }
 
+    
+
     return (
         <TalkContext.Provider value={{ talks, getTalks, createTalk, editTalk, joinTalk, leaveTalk}} >
             { props.children }
