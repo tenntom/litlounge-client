@@ -5,6 +5,7 @@ export const WorkContext = React.createContext()
 export const WorkProvider = (props) => {
     const [works, setWorks] = useState([])
     const [workTypes, setTypes] = useState([])
+    const [genres, setGenres] = useState([])
 
     const getWorks = () => {
         return fetch("http://localhost:8000/works", {
@@ -59,8 +60,18 @@ export const WorkProvider = (props) => {
         .then(setTypes)
     }
 
+    const getGenres = () => {
+        return fetch("http://localhost:8000/genres", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`
+            }
+        })
+        .then(res => res.json())
+        .then(setGenres)
+    }
+
     return (
-        <WorkContext.Provider value={{ works, workTypes, getWorks, createWork, editWork, getWorkTypes, setTypes, getWorkById }} >
+        <WorkContext.Provider value={{ works, workTypes, genres, setGenres, getGenres, getWorks, createWork, editWork, getWorkTypes, setTypes, getWorkById }} >
             {props.children}
         </WorkContext.Provider>
     )

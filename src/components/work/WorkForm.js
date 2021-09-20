@@ -6,7 +6,8 @@ import "./Work.css"
 
 export const WorkForm = () => {
     const history = useHistory()
-    const { createWork, editWork, getWorkTypes, workTypes, getWorkById } = useContext(WorkContext)
+    const { genres, getGenres, createWork, editWork, getWorkTypes, workTypes, getWorkById } = useContext(WorkContext)
+    const [workGenres, setWorkGenres] = useState()
 
     const [currentWork, setCurrentWork] = useState({
         title: "",
@@ -14,7 +15,7 @@ export const WorkForm = () => {
         workTypeId: 0,
         description: "",
         identifier: "",
-        urlLink: "",  //Do I need posted by field here?
+        urlLink: "",
         genres: []
     })
 
@@ -23,6 +24,7 @@ export const WorkForm = () => {
 
     useEffect(() => {
         getWorkTypes()
+        getGenres()
     }, [])
 
     useEffect(() => {
@@ -37,13 +39,19 @@ export const WorkForm = () => {
                     identifier: work.identifier,
                     urlLink: work.url_link,
                     postedById: work.postedById,
-                    genres: [work.genres]
+                    genres: work.genres
                 })
             })
     }, [workId])
 
 
     const handleControlledInputChange = (event) => {
+        const newWorkState = { ...currentWork }
+        newWorkState[event.target.name] = event.target.value
+        setCurrentWork(newWorkState)
+    }
+
+    const handleCheckboxChange = (event) => {
         const newWorkState = { ...currentWork }
         newWorkState[event.target.name] = event.target.value
         setCurrentWork(newWorkState)
@@ -75,8 +83,8 @@ export const WorkForm = () => {
 
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="work_type_id">Work Type: </label>
-                    <select name="work_type_id" className="form-control" value={currentWork.workTypeId} onChange={handleControlledInputChange}>
+                    <label htmlFor="workTypeId">Work Type: </label>
+                    <select name="workTypeId" className="form-control" value={currentWork.workTypeId} onChange={handleControlledInputChange}>
                         <option value="0">Select a type</option>
                         {workTypes.map(wt => (
                             <option key={wt.id} value={wt.id}>
@@ -113,6 +121,26 @@ export const WorkForm = () => {
                     />
                 </div>
             </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="genre">Genres: </label>
+                    {
+                        genres.map(g => {
+                            return (
+                                <>
+                                    <input type="checkbox" name="workGenre" value={g.id} onClick={() => {
+                                        const copyOfWorkGenres = [...workGenres];
+                                        g.id in copyOfWorkGenres
+                                            ? copyOfWorkGenres.pop(g.id)
+                                            : copyOfWorkGenres.push(g.id)
+                                    }}>
+                                        {g.label}</input>
+                                </>
+                            )
+                        })
+                    }
+                </div>
+            </fieldset>
 
             {
                 (workId)
@@ -147,7 +175,7 @@ export const WorkForm = () => {
                                 description: currentWork.description,
                                 identifier: currentWork.identifier,
                                 urlLink: currentWork.url_link,
-                                postedById: currentWork.posted_byId,
+                                postedById: currentWork.postedById,
                                 genres: [currentWork.genres]
                             }
 
@@ -157,6 +185,6 @@ export const WorkForm = () => {
                         className="btn btn-primary">Create</button>
             }
 
-        </form>
+        </form >
     )
 }
