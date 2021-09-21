@@ -50,6 +50,15 @@ export const WorkProvider = (props) => {
         }).then(getWorks)
     }
 
+    const deleteWork = workId => {
+        return fetch(`http://localhost:8000/talks/${workId}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+            },
+            method: "DELETE"
+        }).then(getWorks)
+    }
+
     // const getWorkTypes = () => {
     //     return fetch("http://localhost:8000/worktypes", {
     //         headers: {
@@ -71,7 +80,7 @@ export const WorkProvider = (props) => {
     // }
 
     return (
-        <WorkContext.Provider value={{ works, getWorks, createWork, editWork, getWorkById }} >
+        <WorkContext.Provider value={{ works, getWorks, createWork, editWork, getWorkById, deleteWork }} >
             {props.children}
         </WorkContext.Provider>
     )

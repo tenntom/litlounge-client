@@ -8,7 +8,7 @@ import { WorkTypeContext } from "../worktypes/WorkTypeProvider.js"
 
 export const WorkForm = () => {
     const history = useHistory()
-    const { createWork, editWork, getWorkById } = useContext(WorkContext)
+    const { createWork, editWork, getWorkById, deleteWork } = useContext(WorkContext)
     const { genres, getGenres } = useContext(GenreContext)
     const { getWorkTypes, workTypes, } = useContext(WorkTypeContext)
     const [workGenres, setWorkGenres] = useState([])
@@ -34,7 +34,7 @@ export const WorkForm = () => {
         getWorkById(workId)
             .then((work) => {
                 const genreArray = []
-                work.genres.forEach(genre => {genreArray.push(genre.id)});
+                work.genres.forEach(genre => { genreArray.push(genre.id) });
                 setCurrentWork({
                     id: parseInt(workId),
                     title: work.title,
@@ -70,7 +70,7 @@ export const WorkForm = () => {
     // }
 
     const handleCheckboxChange = (event) => {
-        const copyOfWorkGenres = { ...workGenres }
+        const copyOfWorkGenres = [...workGenres]
         const genreIndex = copyOfWorkGenres.indexOf(parseInt(event.target.value))
         if (genreIndex > -1) {
             copyOfWorkGenres.splice(genreIndex, 1)
@@ -79,6 +79,8 @@ export const WorkForm = () => {
         }
         setWorkGenres(copyOfWorkGenres)
     }
+
+
 
 
     return (
@@ -160,15 +162,17 @@ export const WorkForm = () => {
                     <label htmlFor="genre">Genres: </label>
                     {
                         genres.map(g => {
+                            console.log(workGenres.find((wg) => parseInt(wg) === parseInt(g.id)))
                             return (
                                 <>
                                     <input type="checkbox" name="workGenre" value={g.id}
                                         onChange={handleCheckboxChange}
-                                        checked={workGenres.some((wg) => wg.id === g.id)}
+                                        checked={workGenres.some((wg) => wg === g.id)}
                                     />
                                     <label htmlFor="workGenre">{g.label}</label>
                                 </>
-                            )})
+                            )
+                        })
                     }
                     <button className="btn-new-genre btn-tiny"
                         onClick={() => {
@@ -186,49 +190,65 @@ export const WorkForm = () => {
                 </div>
             </fieldset>
 
-            {
-                (workId)
-                    ? <button type="submit"
-                        onClick={evt => {
-                            // Prevent form from being submitted
-                            evt.preventDefault()
-                            editWork({
-                                id: currentWork.id,
-                                title: currentWork.title,
-                                author: currentWork.author,
-                                workTypeId: parseInt(currentWork.workTypeId),
-                                description: currentWork.description,
-                                identifier: currentWork.identifier,
-                                urlLink: currentWork.urlLink,
-                                postedById: currentWork.postedById,
-                                genres: currentWork.genres
-                                // genres: [3, 4]
-                            })
-                                .then(() => history.push("/works"))
-                        }}
-                        className="btn btn-primary">Update</button>
+            <div className="buttons">
 
-                    : <button type="submit"
-                        onClick={evt => {
-                            // Prevent form from being submitted
-                            evt.preventDefault()
+                {
+                    (workId)
+                        ? <div className="edit-buttons">
+                            <button type="submit"
+                                onClick={evt => {
+                                    // Prevent form from being submitted
+                                    evt.preventDefault()
+                                    editWork({
+                                        id: currentWork.id,
+                                        title: currentWork.title,
+                                        author: currentWork.author,
+                                        workTypeId: parseInt(currentWork.workTypeId),
+                                        description: currentWork.description,
+                                        identifier: currentWork.identifier,
+                                        urlLink: currentWork.urlLink,
+                                        postedById: currentWork.postedById,
+                                        genres: workGenres
+                                        // genres: [3, 4]
+                                    })
+                                        .then(() => history.push("/works"))
+                                }}
+                                className="btn btn-primary">Update</button>
+                            <div className="work__delete">
+                                <button className="btn btn-delete-work btn-tiny" onClick={e => {
+                                    e.preventDefault()
+                                    deleteWork(parseInt(workId))
+                                        .then(() => history.push("/works")
+                                        )
+                                }}>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
 
-                            const work = {
-                                title: currentWork.title,
-                                author: currentWork.author,
-                                workTypeId: parseInt(currentWork.workTypeId),
-                                description: currentWork.description,
-                                identifier: currentWork.identifier,
-                                urlLink: currentWork.urlLink,
-                                postedById: currentWork.postedById,
-                                genres: currentWork.genres
-                            }
 
-                            createWork(work)
-                                .then(() => history.push("/works"))
-                        }}
-                        className="btn btn-primary">Create</button>
-            }
+                        : <button type="submit"
+                            onClick={evt => {
+                                // Prevent form from being submitted
+                                evt.preventDefault()
+
+                                const work = {
+                                    title: currentWork.title,
+                                    author: currentWork.author,
+                                    workTypeId: parseInt(currentWork.workTypeId),
+                                    description: currentWork.description,
+                                    identifier: currentWork.identifier,
+                                    urlLink: currentWork.urlLink,
+                                    postedById: currentWork.postedById,
+                                    genres: workGenres
+                                }
+
+                                createWork(work)
+                                    .then(() => history.push("/works"))
+                            }}
+                            className="btn btn-primary">Create</button>
+                }
+            </div>
 
         </form >
     )

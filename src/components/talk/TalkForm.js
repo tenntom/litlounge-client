@@ -186,8 +186,7 @@ export const TalkForm = () => {
                             </button>
                         </div>
                     </div>
-                    :
-                    <button type="submit"
+                    :<button type="submit"
                         onClick={evt => {
                             evt.preventDefault()
 
