@@ -75,4 +75,15 @@ fieldset {
     padding: 1em;
 }
 
+.talk-section{
+    border: 1px blue solid;
+    margin: 1em;
+    padding: 1em;
+}
 
+.btn-tiny{
+    max-width:6em;
+    max-height: 2em;
+    background-color: rgb(182, 206, 182);
+    font-size: 12px;
+}

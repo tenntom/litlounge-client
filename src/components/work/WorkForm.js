@@ -2,11 +2,16 @@ import React, { useContext, useState, useEffect } from "react"
 import { WorkContext } from "./WorkProvider.js"
 import { useHistory, useParams } from 'react-router-dom'
 import "./Work.css"
+import { GenreContext } from "../genres/GenreProvider.js"
+import { WorkTypeContext } from "../worktypes/WorkTypeProvider.js"
 
 
 export const WorkForm = () => {
     const history = useHistory()
-    const { createWork, editWork, getWorkTypes, workTypes, getWorkById } = useContext(WorkContext)
+    const { createWork, editWork, getWorkById, deleteWork } = useContext(WorkContext)
+    const { genres, getGenres } = useContext(GenreContext)
+    const { getWorkTypes, workTypes, } = useContext(WorkTypeContext)
+    const [workGenres, setWorkGenres] = useState([])
 
     const [currentWork, setCurrentWork] = useState({
         title: "",
@@ -14,20 +19,22 @@ export const WorkForm = () => {
         workTypeId: 0,
         description: "",
         identifier: "",
-        urlLink: "",  //Do I need posted by field here?
+        urlLink: "",
         genres: []
     })
 
     const { workId } = useParams()
 
-
     useEffect(() => {
         getWorkTypes()
+        getGenres()
     }, [])
 
     useEffect(() => {
         getWorkById(workId)
             .then((work) => {
+                const genreArray = []
+                work.genres.forEach(genre => { genreArray.push(genre.id) });
                 setCurrentWork({
                     id: parseInt(workId),
                     title: work.title,
@@ -36,11 +43,13 @@ export const WorkForm = () => {
                     description: work.description,
                     identifier: work.identifier,
                     urlLink: work.url_link,
-                    postedById: work.postedById,
-                    genres: [work.genres]
+                    postedById: work.posted_by.user.id,
+                    // genres: genreArray
                 })
+                setWorkGenres(genreArray)
             })
     }, [workId])
+
 
 
     const handleControlledInputChange = (event) => {
@@ -49,10 +58,39 @@ export const WorkForm = () => {
         setCurrentWork(newWorkState)
     }
 
+    // const handleCheckboxChange = (event) => {
+    //     const newWork = { ...currentWork }
+    //     const genreIndex = newWork.genres.indexOf(parseInt(event.target.value))
+    //     if (genreIndex > -1) {
+    //         newWork.genres.splice(genreIndex, 1)
+    //     } else {
+    //         newWork.genres.push(parseInt(event.target.value))
+    //     }
+    //     setCurrentWork(newWork)
+    // }
+
+    const handleCheckboxChange = (event) => {
+        const copyOfWorkGenres = [...workGenres]
+        const genreIndex = copyOfWorkGenres.indexOf(parseInt(event.target.value))
+        if (genreIndex > -1) {
+            copyOfWorkGenres.splice(genreIndex, 1)
+        } else {
+            copyOfWorkGenres.push(parseInt(event.target.value))
+        }
+        setWorkGenres(copyOfWorkGenres)
+    }
+
+
+
 
     return (
         <form className="work">
-            <h2 className="add_work">Add New Work</h2>
+            {
+                (workId)
+                    ? <h2 className="update_work">Update Work</h2>
+                    : <h2 className="add_work">Add New Work</h2>
+
+            }
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="title">Title: </label>
@@ -75,8 +113,8 @@ export const WorkForm = () => {
 
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="work_type_id">Work Type: </label>
-                    <select name="work_type_id" className="form-control" value={currentWork.workTypeId} onChange={handleControlledInputChange}>
+                    <label htmlFor="workTypeId">Work Type: </label>
+                    <select name="workTypeId" className="form-control" value={currentWork.workTypeId} onChange={handleControlledInputChange}>
                         <option value="0">Select a type</option>
                         {workTypes.map(wt => (
                             <option key={wt.id} value={wt.id}>
@@ -84,6 +122,12 @@ export const WorkForm = () => {
                             </option>
                         ))}
                     </select>
+                    <button className="btn-new-type btn-tiny"
+                        onClick={() => {
+                            history.push({ pathname: "/worktypes/new" })
+                        }}
+                    >Add Type
+                    </button>
                 </div>
             </fieldset>
             <fieldset>
@@ -106,57 +150,106 @@ export const WorkForm = () => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="url_link">Url Link: </label>
-                    <input type="text" name="url_link" required autoFocus className="form-control"
+                    <label htmlFor="urlLink">Link: </label>
+                    <input type="text" name="urlLink" autoFocus className="form-control"
                         value={currentWork.urlLink}
                         onChange={handleControlledInputChange}
                     />
                 </div>
             </fieldset>
-
-            {
-                (workId)
-                    ? <button type="submit"
-                        onClick={evt => {
-                            // Prevent form from being submitted
-                            evt.preventDefault()
-                            editWork({
-                                id: currentWork.id,
-                                title: currentWork.title,
-                                author: currentWork.author,
-                                workTypeTd: parseInt(currentWork.workTypeId),
-                                description: currentWork.description,
-                                identifier: currentWork.identifier,
-                                urlLink: currentWork.urlLink,
-                                postedById: currentWork.postedById,
-                                genres: [currentWork.genres]
-                            })
-                                .then(() => history.push("/works"))
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="genre">Genres: </label>
+                    {
+                        genres.map(g => {
+                            console.log(workGenres.find((wg) => parseInt(wg) === parseInt(g.id)))
+                            return (
+                                <>
+                                    <input type="checkbox" name="workGenre" value={g.id}
+                                        onChange={handleCheckboxChange}
+                                        checked={workGenres.some((wg) => wg === g.id)}
+                                    />
+                                    <label htmlFor="workGenre">{g.label}</label>
+                                </>
+                            )
+                        })
+                    }
+                    <button className="btn-new-genre btn-tiny"
+                        onClick={() => {
+                            history.push({ pathname: "/genres/new" })
                         }}
-                        className="btn btn-primary">Update</button>
-
-                    : <button type="submit"
-                        onClick={evt => {
-                            // Prevent form from being submitted
-                            evt.preventDefault()
-
-                            const Work = {
-                                title: currentWork.title,
-                                author: currentWork.author,
-                                workTypeId: parseInt(currentWork.workTypeId),
-                                description: currentWork.description,
-                                identifier: currentWork.identifier,
-                                urlLink: currentWork.url_link,
-                                postedById: currentWork.posted_byId,
-                                genres: [currentWork.genres]
-                            }
-
-                            createWork(Work)
-                                .then(() => history.push("/works"))
+                    >Add Genre
+                    </button>
+                    {/* <button className="btn-new-genre btn-tiny"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            console.log(currentWorkGenres.genres)
                         }}
-                        className="btn btn-primary">Create</button>
-            }
+                    >Test Genres
+                    </button> */}
+                </div>
+            </fieldset>
 
-        </form>
+            <div className="buttons">
+
+                {
+                    (workId)
+                        ? <div className="edit-buttons">
+                            <button type="submit"
+                                onClick={evt => {
+                                    // Prevent form from being submitted
+                                    evt.preventDefault()
+                                    editWork({
+                                        id: currentWork.id,
+                                        title: currentWork.title,
+                                        author: currentWork.author,
+                                        workTypeId: parseInt(currentWork.workTypeId),
+                                        description: currentWork.description,
+                                        identifier: currentWork.identifier,
+                                        urlLink: currentWork.urlLink,
+                                        postedById: currentWork.postedById,
+                                        genres: workGenres
+                                        // genres: [3, 4]
+                                    })
+                                        .then(() => history.push("/works"))
+                                }}
+                                className="btn btn-primary">Update</button>
+                            <div className="work__delete">
+                                <button className="btn btn-delete-work btn-tiny" onClick={e => {
+                                    e.preventDefault()
+                                    deleteWork(parseInt(workId))
+                                        .then(() => history.push("/works")
+                                        )
+                                }}>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+
+
+                        : <button type="submit"
+                            onClick={evt => {
+                                // Prevent form from being submitted
+                                evt.preventDefault()
+
+                                const work = {
+                                    title: currentWork.title,
+                                    author: currentWork.author,
+                                    workTypeId: parseInt(currentWork.workTypeId),
+                                    description: currentWork.description,
+                                    identifier: currentWork.identifier,
+                                    urlLink: currentWork.urlLink,
+                                    postedById: currentWork.postedById,
+                                    genres: workGenres
+                                }
+
+                                createWork(work)
+                                    .then(() => history.push("/works"))
+                            }}
+                            className="btn btn-primary">Create</button>
+                }
+            </div>
+
+        </form >
     )
 }

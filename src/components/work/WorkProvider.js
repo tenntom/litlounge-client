@@ -4,7 +4,8 @@ export const WorkContext = React.createContext()
 
 export const WorkProvider = (props) => {
     const [works, setWorks] = useState([])
-    const [workTypes, setTypes] = useState([])
+    // const [workTypes, setTypes] = useState([])
+    // const [genres, setGenres] = useState([])
 
     const getWorks = () => {
         return fetch("http://localhost:8000/works", {
@@ -49,18 +50,37 @@ export const WorkProvider = (props) => {
         }).then(getWorks)
     }
 
-    const getWorkTypes = () => {
-        return fetch("http://localhost:8000/worktypes", {
+    const deleteWork = workId => {
+        return fetch(`http://localhost:8000/talks/${workId}`, {
             headers: {
-                "Authorization": `Token ${localStorage.getItem("ll_token")}`
-            }
-        })
-        .then(res => res.json())
-        .then(setTypes)
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+            },
+            method: "DELETE"
+        }).then(getWorks)
     }
 
+    // const getWorkTypes = () => {
+    //     return fetch("http://localhost:8000/worktypes", {
+    //         headers: {
+    //             "Authorization": `Token ${localStorage.getItem("ll_token")}`
+    //         }
+    //     })
+    //     .then(res => res.json())
+    //     .then(setTypes)
+    // }
+
+    // const getGenres = () => {
+    //     return fetch("http://localhost:8000/genres", {
+    //         headers: {
+    //             "Authorization": `Token ${localStorage.getItem("ll_token")}`
+    //         }
+    //     })
+    //     .then(res => res.json())
+    //     .then(setGenres)
+    // }
+
     return (
-        <WorkContext.Provider value={{ works, workTypes, getWorks, createWork, editWork, getWorkTypes, setTypes, getWorkById }} >
+        <WorkContext.Provider value={{ works, getWorks, createWork, editWork, getWorkById, deleteWork }} >
             {props.children}
         </WorkContext.Provider>
     )

@@ -15,6 +15,15 @@ export const TalkProvider = (props) => {
             .then(setTalks)
     }
 
+    const getTalkById = (id) => {
+        return fetch(`http://localhost:8000/talks/${id}`, {
+            headers:{
+                "Authorization": `Token ${localStorage.getItem("ll_token")}`
+            }
+        })
+            .then(response => response.json())
+    }
+
     const createTalk = (talk) => {
         return fetch("http://localhost:8000/talks", {
             method: "POST",
@@ -28,17 +37,23 @@ export const TalkProvider = (props) => {
             .then(getTalks)
     }
 
-    const editTalk = (talk) => {
-        return fetch(`http://localhost:8000/talks/${talk.id}`, {
-            method: "PUT",
+    const editTalk = (talk) => fetch(`http://localhost:8000/talks/${talk.id}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(talk)
+    })
+        .then(getTalks)
+
+    const deleteTalk = talkId => {
+        return fetch(`http://localhost:8000/talks/${talkId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("ll_token")}`,
-                "Content-Type": "application/json"
             },
-            body: JSON.stringify(talk)
-        })
-            .then(response => response.json())
-            .then(getTalks)
+            method: "DELETE"
+        }).then(getTalks)
     }
 
     const leaveTalk = talkId => {
@@ -67,7 +82,7 @@ export const TalkProvider = (props) => {
     
 
     return (
-        <TalkContext.Provider value={{ talks, getTalks, createTalk, editTalk, joinTalk, leaveTalk}} >
+        <TalkContext.Provider value={{ talks, getTalks, createTalk, getTalkById, editTalk, deleteTalk, joinTalk, leaveTalk}} >
             { props.children }
         </TalkContext.Provider>
     )
