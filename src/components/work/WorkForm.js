@@ -11,7 +11,7 @@ export const WorkForm = () => {
     const { createWork, editWork, getWorkById } = useContext(WorkContext)
     const { genres, getGenres } = useContext(GenreContext)
     const { getWorkTypes, workTypes, } = useContext(WorkTypeContext)
-    const [workGenres, setWorkGenres] = useState()
+    const [workGenres, setWorkGenres] = useState([])
 
     const [currentWork, setCurrentWork] = useState({
         title: "",
@@ -33,6 +33,8 @@ export const WorkForm = () => {
     useEffect(() => {
         getWorkById(workId)
             .then((work) => {
+                const genreArray = []
+                work.genres.forEach(genre => {genreArray.push(genre.id)});
                 setCurrentWork({
                     id: parseInt(workId),
                     title: work.title,
@@ -41,15 +43,13 @@ export const WorkForm = () => {
                     description: work.description,
                     identifier: work.identifier,
                     urlLink: work.url_link,
-                    postedById: work.posted_by.id,
-                    genres: work.genres
+                    postedById: work.posted_by.user.id,
+                    // genres: genreArray
                 })
+                setWorkGenres(genreArray)
             })
     }, [workId])
 
-    // useEffect(() => {
-    //     setWorkGenres()
-    // })
 
 
     const handleControlledInputChange = (event) => {
@@ -58,16 +58,37 @@ export const WorkForm = () => {
         setCurrentWork(newWorkState)
     }
 
+    // const handleCheckboxChange = (event) => {
+    //     const newWork = { ...currentWork }
+    //     const genreIndex = newWork.genres.indexOf(parseInt(event.target.value))
+    //     if (genreIndex > -1) {
+    //         newWork.genres.splice(genreIndex, 1)
+    //     } else {
+    //         newWork.genres.push(parseInt(event.target.value))
+    //     }
+    //     setCurrentWork(newWork)
+    // }
+
     const handleCheckboxChange = (event) => {
-        const newWorkState = { ...currentWork }
-        newWorkState[event.target.name] = event.target.value
-        setCurrentWork(newWorkState)
+        const copyOfWorkGenres = { ...workGenres }
+        const genreIndex = copyOfWorkGenres.indexOf(parseInt(event.target.value))
+        if (genreIndex > -1) {
+            copyOfWorkGenres.splice(genreIndex, 1)
+        } else {
+            copyOfWorkGenres.push(parseInt(event.target.value))
+        }
+        setWorkGenres(copyOfWorkGenres)
     }
 
 
     return (
         <form className="work">
-            <h2 className="add_work">Add New Work</h2>
+            {
+                (workId)
+                    ? <h2 className="update_work">Update Work</h2>
+                    : <h2 className="add_work">Add New Work</h2>
+
+            }
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="title">Title: </label>
@@ -127,8 +148,8 @@ export const WorkForm = () => {
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="url_link">Url Link: </label>
-                    <input type="text" name="url_link" required autoFocus className="form-control"
+                    <label htmlFor="urlLink">Link: </label>
+                    <input type="text" name="urlLink" autoFocus className="form-control"
                         value={currentWork.urlLink}
                         onChange={handleControlledInputChange}
                     />
@@ -142,18 +163,12 @@ export const WorkForm = () => {
                             return (
                                 <>
                                     <input type="checkbox" name="workGenre" value={g.id}
-                                        onClick={() => {
-                                            console.log(g.id)
-                                            // const copyOfWorkGenres = [...workGenres];
-                                            // g.id in copyOfWorkGenres
-                                            // ? copyOfWorkGenres.pop(g.id)
-                                            // : copyOfWorkGenres.push(g.id)
-                                        }}
+                                        onChange={handleCheckboxChange}
+                                        checked={workGenres.some((wg) => wg.id === g.id)}
                                     />
                                     <label htmlFor="workGenre">{g.label}</label>
                                 </>
-                            )
-                        })
+                            )})
                     }
                     <button className="btn-new-genre btn-tiny"
                         onClick={() => {
@@ -161,6 +176,13 @@ export const WorkForm = () => {
                         }}
                     >Add Genre
                     </button>
+                    {/* <button className="btn-new-genre btn-tiny"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            console.log(currentWorkGenres.genres)
+                        }}
+                    >Test Genres
+                    </button> */}
                 </div>
             </fieldset>
 
@@ -179,7 +201,8 @@ export const WorkForm = () => {
                                 identifier: currentWork.identifier,
                                 urlLink: currentWork.urlLink,
                                 postedById: currentWork.postedById,
-                                genres: [3, 4]
+                                genres: currentWork.genres
+                                // genres: [3, 4]
                             })
                                 .then(() => history.push("/works"))
                         }}
@@ -196,9 +219,9 @@ export const WorkForm = () => {
                                 workTypeId: parseInt(currentWork.workTypeId),
                                 description: currentWork.description,
                                 identifier: currentWork.identifier,
-                                urlLink: currentWork.url_link,
+                                urlLink: currentWork.urlLink,
                                 postedById: currentWork.postedById,
-                                genres: [1, 2]
+                                genres: currentWork.genres
                             }
 
                             createWork(work)
