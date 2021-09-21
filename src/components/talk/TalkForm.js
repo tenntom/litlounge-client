@@ -170,14 +170,18 @@ export const TalkForm = () => {
                                 }
 
                                 editTalk(talk)
-                                    .then(() => history.push("/profile"))
+                                    .then(() => history.push("/profile")
+                                    )
                             }}
                             className="btn btn-primary">Update</button>
 
                         <div className="talk__delete">
-                            <button className="btn btn-edit-talk btn-tiny" onClick={e => deleteTalk(parseInt(talkId))
-                                .then(() => history.push("/profile")
-                                )}>
+                            <button className="btn btn-edit-talk btn-tiny" onClick={e => {
+                                e.preventDefault()
+                                deleteTalk(parseInt(talkId))
+                                    .then(() => history.push("/profile")
+                                    )
+                            }}>
                                 Delete
                             </button>
                         </div>

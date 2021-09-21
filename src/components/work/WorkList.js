@@ -23,7 +23,7 @@ export const WorkList = (props) => {
                 works.map(work => {
                     return <section key={`work--${work.id}`} className="work">
                         <div className="work__edit">
-                        <button className="btn btn-3" onClick={e => history.push(`/works/${work.id}/edit`)}>
+                        <button className="btn btn-3 btn-tiny" onClick={e => history.push(`/works/${work.id}/edit`)}>
                             Edit                        
                         </button>
                         </div>

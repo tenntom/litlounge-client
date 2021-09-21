@@ -37,18 +37,15 @@ export const TalkProvider = (props) => {
             .then(getTalks)
     }
 
-    const editTalk = (talk) => {
-        return fetch(`http://localhost:8000/talks/${talk.id}`, {
-            method: "PUT",
-            headers: {
-                "Authorization": `Token ${localStorage.getItem("ll_token")}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(talk)
-        })
-            .then(response => response.json())
-            .then(getTalks)
-    }
+    const editTalk = (talk) => fetch(`http://localhost:8000/talks/${talk.id}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("ll_token")}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(talk)
+    })
+        .then(getTalks)
 
     const deleteTalk = talkId => {
         return fetch(`http://localhost:8000/talks/${talkId}`, {
@@ -56,8 +53,7 @@ export const TalkProvider = (props) => {
                 "Authorization": `Token ${localStorage.getItem("ll_token")}`,
             },
             method: "DELETE"
-        })
-        .then(getTalks)
+        }).then(getTalks)
     }
 
     const leaveTalk = talkId => {
