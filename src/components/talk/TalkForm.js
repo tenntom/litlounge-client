@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { TalkContext } from "./TalkProvider"
 import { WorkContext } from "../work/WorkProvider"
 
@@ -8,10 +8,10 @@ export const TalkForm = () => {
 
     const history = useHistory()
 
-    const { createTalk } = useContext(TalkContext)
+    const { createTalk, editTalk, deleteTalk, getTalkById } = useContext(TalkContext)
     const { getWorks, works } = useContext(WorkContext)
 
-    const [currentTalk, setTalk] = useState({
+    const [currentTalk, setCurrentTalk] = useState({
         hostId: 0,
         workId: 0,
         date: 0,
@@ -19,10 +19,12 @@ export const TalkForm = () => {
         title: "",
         description: "",
         supMaterials: "",
-        zoomMeetingId:"",
+        zoomMeetingId: "",
         zoomMeetingPassword: "",
-        participantIds: []
+        // participantIds: []
     })
+
+    const { talkId } = useParams()
 
     useEffect(() => {
         getWorks()
@@ -32,13 +34,32 @@ export const TalkForm = () => {
     const changeTalkState = (event) => {
         const newTalkState = { ...currentTalk }
         newTalkState[event.target.name] = event.target.value
-        setTalk(newTalkState)
+        setCurrentTalk(newTalkState)
     }
+
+    useEffect(() => {
+        getTalkById(talkId)
+            .then((talk) => {
+                setCurrentTalk({
+                    id: parseInt(talkId),
+                    hostId: talk.host.id,
+                    workId: talk.work.id,
+                    date: talk.date,
+                    time: talk.time,
+                    title: talk.title,
+                    description: talk.description,
+                    supMaterials: talk.sup_materials,
+                    zoomMeetingId: talk.zoom_meeting_id,
+                    zoomMeetingPassword: talk.zoom_meeting_password
+                    // participants: talk.participants
+                })
+            })
+    }, [talkId])
 
 
     return (
         <form className="Talk">
-            <h2 className="Talk_title">Schedule New Talk</h2>
+            <h2 className="Talk_title">Schedule Talk</h2>
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="workId">Work: </label>
@@ -84,7 +105,7 @@ export const TalkForm = () => {
                     />
                 </div>
             </fieldset>
-            
+
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="description">Description: </label>
@@ -127,27 +148,63 @@ export const TalkForm = () => {
 
 
 
-            <button type="submit"
-                onClick={evt => {
-                    evt.preventDefault()
+            {
+                (talkId)
+                    ?
+                    <div>
+                        <button type="submit"
+                            onClick={evt => {
+                                evt.preventDefault()
 
-                    const talk = {
-                        hostId: parseInt(currentTalk.hostId),
-                        workId: parseInt(currentTalk.workId),
-                        title: currentTalk.title,
-                        date: currentTalk.date,
-                        time: currentTalk.time,
-                        description: currentTalk.description,
-                        supMaterials: currentTalk.supMaterials,
-                        zoomMeetingId: currentTalk.zoomMeetingId,
-                        zoomMeetingPassword: currentTalk.zoomMeetingPassword
-                    }
+                                const talk = {
+                                    id: currentTalk.id,
+                                    hostId: parseInt(currentTalk.hostId),
+                                    workId: parseInt(currentTalk.workId),
+                                    title: currentTalk.title,
+                                    date: currentTalk.date,
+                                    time: currentTalk.time,
+                                    description: currentTalk.description,
+                                    supMaterials: currentTalk.supMaterials,
+                                    zoomMeetingId: currentTalk.zoomMeetingId,
+                                    zoomMeetingPassword: currentTalk.zoomMeetingPassword
+                                }
 
-                    createTalk(talk)
-                    .then(() => history.push("/talks"))
-                }}
+                                editTalk(talk)
+                                    .then(() => history.push("/profile"))
+                            }}
+                            className="btn btn-primary">Update</button>
 
-                className="btn btn-primary">Create Talk</button>
+                        <div className="talk__delete">
+                            <button className="btn btn-edit-talk btn-tiny" onClick={e => deleteTalk(parseInt(talkId))
+                                .then(() => history.push("/profile")
+                                )}>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    :
+                    <button type="submit"
+                        onClick={evt => {
+                            evt.preventDefault()
+
+                            const talk = {
+                                hostId: parseInt(currentTalk.hostId),
+                                workId: parseInt(currentTalk.workId),
+                                title: currentTalk.title,
+                                date: currentTalk.date,
+                                time: currentTalk.time,
+                                description: currentTalk.description,
+                                supMaterials: currentTalk.supMaterials,
+                                zoomMeetingId: currentTalk.zoomMeetingId,
+                                zoomMeetingPassword: currentTalk.zoomMeetingPassword
+                            }
+
+                            createTalk(talk)
+                                .then(() => history.push("/talks"))
+                        }}
+
+                        className="btn btn-primary">Create Talk</button>
+            }
 
         </form>
     )

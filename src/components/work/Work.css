@@ -17,3 +17,14 @@
 .form-control-radio{
     display: flex;
 }
+
+.form-control-radio{
+    display: flex;
+}
+
+.btn-tiny{
+    max-width:6em;
+    max-height: 2em;
+    background-color: rgb(182, 206, 182);
+    font-size: 12px;
+}

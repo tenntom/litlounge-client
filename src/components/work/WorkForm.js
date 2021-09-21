@@ -2,11 +2,15 @@ import React, { useContext, useState, useEffect } from "react"
 import { WorkContext } from "./WorkProvider.js"
 import { useHistory, useParams } from 'react-router-dom'
 import "./Work.css"
+import { GenreContext } from "../genres/GenreProvider.js"
+import { WorkTypeContext } from "../worktypes/WorkTypeProvider.js"
 
 
 export const WorkForm = () => {
     const history = useHistory()
-    const { genres, getGenres, createWork, editWork, getWorkTypes, workTypes, getWorkById } = useContext(WorkContext)
+    const { createWork, editWork, getWorkById } = useContext(WorkContext)
+    const { genres, getGenres } = useContext(GenreContext)
+    const { getWorkTypes, workTypes, } = useContext(WorkTypeContext)
     const [workGenres, setWorkGenres] = useState()
 
     const [currentWork, setCurrentWork] = useState({
@@ -20,9 +24,6 @@ export const WorkForm = () => {
     })
 
     const { workId } = useParams()
-
-    console.log(genres)
-
 
     useEffect(() => {
         getWorkTypes()
@@ -98,6 +99,12 @@ export const WorkForm = () => {
                             </option>
                         ))}
                     </select>
+                    <button className="btn-new-type btn-tiny"
+                        onClick={() => {
+                            history.push({ pathname: "/worktypes/new" })
+                        }}
+                    >Add Type
+                    </button>
                 </div>
             </fieldset>
             <fieldset>
@@ -134,20 +141,26 @@ export const WorkForm = () => {
                         genres.map(g => {
                             return (
                                 <>
-                                    <input type="checkbox" name="workGenre" value={g.id} 
-                                    onClick={() => {
-                                        console.log(g.id)
-                                        // const copyOfWorkGenres = [...workGenres];
-                                        // g.id in copyOfWorkGenres
-                                        // ? copyOfWorkGenres.pop(g.id)
-                                        // : copyOfWorkGenres.push(g.id)
-                                    }}
+                                    <input type="checkbox" name="workGenre" value={g.id}
+                                        onClick={() => {
+                                            console.log(g.id)
+                                            // const copyOfWorkGenres = [...workGenres];
+                                            // g.id in copyOfWorkGenres
+                                            // ? copyOfWorkGenres.pop(g.id)
+                                            // : copyOfWorkGenres.push(g.id)
+                                        }}
                                     />
                                     <label htmlFor="workGenre">{g.label}</label>
                                 </>
                             )
                         })
                     }
+                    <button className="btn-new-genre btn-tiny"
+                        onClick={() => {
+                            history.push({ pathname: "/genres/new" })
+                        }}
+                    >Add Genre
+                    </button>
                 </div>
             </fieldset>
 
@@ -166,7 +179,7 @@ export const WorkForm = () => {
                                 identifier: currentWork.identifier,
                                 urlLink: currentWork.urlLink,
                                 postedById: currentWork.postedById,
-                                genres: [3,4]
+                                genres: [3, 4]
                             })
                                 .then(() => history.push("/works"))
                         }}
@@ -177,7 +190,7 @@ export const WorkForm = () => {
                             // Prevent form from being submitted
                             evt.preventDefault()
 
-                            const Work = {
+                            const work = {
                                 title: currentWork.title,
                                 author: currentWork.author,
                                 workTypeId: parseInt(currentWork.workTypeId),
@@ -185,10 +198,10 @@ export const WorkForm = () => {
                                 identifier: currentWork.identifier,
                                 urlLink: currentWork.url_link,
                                 postedById: currentWork.postedById,
-                                genres: [1,2]
+                                genres: [1, 2]
                             }
 
-                            createWork(Work)
+                            createWork(work)
                                 .then(() => history.push("/works"))
                         }}
                         className="btn btn-primary">Create</button>
