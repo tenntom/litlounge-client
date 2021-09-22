@@ -33,4 +33,23 @@
     border: 2px solid red;
     margin: 2em;
     padding: 2em;
+    flex-basis: 25%;
+}
+
+.work-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.works {
+    background-image: url("/home/tenntom/workspace/lit-client/src/logo 5.JPG");
+    padding: 3em;
+}
+
+.work {
+    border: 2px solid red;
+    background-color: white;
+    margin: 2em;
+    padding: 2em;
 }

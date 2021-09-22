@@ -1,0 +1,36 @@
+.talk-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-basis: 70%;
+}
+
+.talk {
+    border: 2px solid red;
+    background-color: white;
+    margin: 2em;
+    padding: 2em;
+}
+
+.talk-title {
+    font-size: 20px;
+}
+
+.talks {
+    background-image: url("/home/tenntom/workspace/lit-client/src/logo 5.JPG");
+    padding: 3em;
+}
+
+.btn-low {
+    max-width: 6em;
+    max-height: 3em;
+    text-align: center;
+}
+
+.btn-join {
+    background-color: rgb(60, 138, 60);
+}
+
+.btn-leave {
+    background-color: rgb(182, 148, 148);
+}

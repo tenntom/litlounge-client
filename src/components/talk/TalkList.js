@@ -18,11 +18,12 @@ export const TalkList = (props) => {
                 <h1>Lit Lounge Talks</h1>
             </header>
             <div className="new_talk">
-                <button className="btn btn-2 btn-sep icon-create"
+                <button className="btn btn-2 btn-top"
                     onClick={() => {
                         history.push({ pathname: "/talks/new" })
                     }}>Add New Talk</button>
             </div>
+            <div className="talk-list">
             {
                 talks.map(talk => {
                     return <section key={talk.id} className="talk">
@@ -55,13 +56,13 @@ export const TalkList = (props) => {
                         <div className="talk-joined-btns">
                         {
                             talk.joined
-                                ?<button className="btn btn-3" onClick={() => leaveTalk(talk.id)}>Leave</button>
-                                :<button className="btn btn-2" onClick={() => joinTalk(talk.id)}>Join</button>
+                                ?<button className="btn btn-low btn-leave" onClick={() => leaveTalk(talk.id)}>Leave</button>
+                                :<button className="btn btn-low btn-join" onClick={() => joinTalk(talk.id)}>Join</button>
                         }
                         </div>
                     </section>
                 })
-            }
+            }</div>
         </article >
     )
 }
