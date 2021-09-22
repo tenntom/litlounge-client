@@ -97,7 +97,6 @@ export const Profile = () => {
                                 <div className="profile-section profile_host">Host: {talk.host.user.first_name} {talk.host.user.last_name}</div>
                                 <div className="profile-work profile-section">Work: {talk.work.title} by {talk.work.author}</div>
                                 <div className="profile-urllink profile-section"><ExternalLink className="url_link" href={ talk.work.url_link }>External Link</ExternalLink></div>
-                                <div className="profile-work profile-section">Link: {talk.work.url_link}</div>
                                 <div className="profile-section profile-description">{talk.description}</div>
                                 <div>
                                     {talk.date} @ {talk.time}

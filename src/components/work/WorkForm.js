@@ -193,7 +193,7 @@ export const WorkForm = () => {
                                     })
                                         .then(() => history.push("/works"))
                                 }}
-                                className="btn btn-primary">Update</button>
+                                className="btn btn-tiny btn-primary">Update</button>
                             <div className="work__delete">
                                 <button className="btn btn-delete-work btn-tiny" onClick={e => {
                                     e.preventDefault()
@@ -227,8 +227,8 @@ export const WorkForm = () => {
                             className="btn btn-primary">Create</button>
                 }
                 <button type="cancel" onClick={evt => {
-                    history.goBack()
-                }}>cancel</button>
+                    history.push("/works")
+                }} className="btn btn-tiny">Cancel</button>
             </div>
 
         </form >
