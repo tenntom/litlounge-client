@@ -26,5 +26,11 @@
     max-width:6em;
     max-height: 2em;
     background-color: rgb(182, 206, 182);
-    font-size: 12px;
+    font-size: 1em;
+}
+
+.work {
+    border: 2px solid red;
+    margin: 2em;
+    padding: 2em;
 }
