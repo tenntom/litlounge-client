@@ -58,17 +58,6 @@ export const WorkForm = () => {
         setCurrentWork(newWorkState)
     }
 
-    // const handleCheckboxChange = (event) => {
-    //     const newWork = { ...currentWork }
-    //     const genreIndex = newWork.genres.indexOf(parseInt(event.target.value))
-    //     if (genreIndex > -1) {
-    //         newWork.genres.splice(genreIndex, 1)
-    //     } else {
-    //         newWork.genres.push(parseInt(event.target.value))
-    //     }
-    //     setCurrentWork(newWork)
-    // }
-
     const handleCheckboxChange = (event) => {
         const copyOfWorkGenres = [...workGenres]
         const genreIndex = copyOfWorkGenres.indexOf(parseInt(event.target.value))
@@ -180,13 +169,6 @@ export const WorkForm = () => {
                         }}
                     >Add Genre
                     </button>
-                    {/* <button className="btn-new-genre btn-tiny"
-                        onClick={(e) => {
-                            e.preventDefault()
-                            console.log(currentWorkGenres.genres)
-                        }}
-                    >Test Genres
-                    </button> */}
                 </div>
             </fieldset>
 
@@ -197,7 +179,6 @@ export const WorkForm = () => {
                         ? <div className="edit-buttons">
                             <button type="submit"
                                 onClick={evt => {
-                                    // Prevent form from being submitted
                                     evt.preventDefault()
                                     editWork({
                                         id: currentWork.id,
@@ -209,7 +190,6 @@ export const WorkForm = () => {
                                         urlLink: currentWork.urlLink,
                                         postedById: currentWork.postedById,
                                         genres: workGenres
-                                        // genres: [3, 4]
                                     })
                                         .then(() => history.push("/works"))
                                 }}
@@ -225,8 +205,6 @@ export const WorkForm = () => {
                                 </button>
                             </div>
                         </div>
-
-
                         : <button type="submit"
                             onClick={evt => {
                                 // Prevent form from being submitted
@@ -248,6 +226,9 @@ export const WorkForm = () => {
                             }}
                             className="btn btn-primary">Create</button>
                 }
+                <button type="cancel" onClick={evt => {
+                    history.goBack()
+                }}>cancel</button>
             </div>
 
         </form >

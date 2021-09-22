@@ -57,7 +57,7 @@ export const WorkTypeForm = () => {
                             })
                                 .then(() => history.push("/works"))
                         }}
-                        className="btn btn-primary">Update</button>
+                        className="btn btn-tiny">Update</button>
 
                     : <button type="submit"
                         onClick={evt => {
@@ -71,8 +71,12 @@ export const WorkTypeForm = () => {
                             createWorkType(WorkType)
                                 .then(() => history.push("/works"))
                         }}
-                        className="btn btn-primary">Create</button>
+                        className="btn btn-tiny">Create</button>
             }
+
+            <button type="cancel" onClick={evt => {
+                history.goBack()
+            }} className="btn btn-tiny">cancel</button>
         </form>
     )
 }

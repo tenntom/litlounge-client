@@ -79,6 +79,11 @@ export const GenreForm = () => {
                         }}
                         className="btn btn-primary">Create</button>
             }
+
+            <button type="cancel" onClick={evt => {
+                history.goBack()
+            }}>cancel</button>
+
         </form>
     )
 }
