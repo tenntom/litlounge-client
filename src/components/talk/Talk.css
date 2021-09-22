@@ -12,8 +12,10 @@
     padding: 2em;
 }
 
-.talk-title {
-    font-size: 20px;
+.talk_title {
+    font-size: 1.5em;
+    margin-bottom: .5em;
+    font-weight: bold;
 }
 
 .talks {
@@ -25,12 +27,44 @@
     max-width: 6em;
     max-height: 3em;
     text-align: center;
+    padding: 1em;
+    margin: .5em;
 }
 
 .btn-join {
-    background-color: rgb(60, 138, 60);
+    background-color: rgb(165, 196, 165);
 }
 
 .btn-leave {
     background-color: rgb(182, 148, 148);
 }
+
+.btn-top {
+    background-color: rgb(150, 197, 150);
+    border: solid 1px black;
+}
+
+.talk-form{
+    background-image: url("/home/tenntom/workspace/lit-client/src/logo 5.JPG");
+    padding: 3em;
+    display: block;
+    align-items: center;
+}
+.talk-form-inside{
+    max-width: 900px;
+    background-color: white;
+    border: 1px red solid;
+    padding: 3em;
+}
+
+.btn-btm {
+    background-color: rgb(150, 197, 150);
+    width: 12em;
+    height: 3em;
+    margin: .75em 1em;
+}
+
+/* .btm-btn-section{
+    display: flex;
+    flex-wrap: wrap;
+} */

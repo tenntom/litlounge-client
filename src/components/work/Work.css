@@ -3,10 +3,10 @@
     flex-wrap: wrap;
 }
 
-.Post_img{
+/* .Post_img{
     width: 20rem;
     height: 20rem;
-}
+} */
 .post__info{
     margin: 5rem;
 }
@@ -23,23 +23,18 @@
 }
 
 .btn-tiny{
-    max-width:6em;
-    max-height: 2em;
+    max-width: 12em;
+    max-height: 6em;
     background-color: rgb(182, 206, 182);
     font-size: 1em;
+    padding: .25em;
 }
 
-.work {
-    border: 2px solid red;
-    margin: 2em;
-    padding: 2em;
-    flex-basis: 25%;
-}
-
-.work-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.btn-small{
+    max-width:12em;
+    max-height: 6em;
+    background-color: rgb(182, 206, 182);
+    font-size: 3em;
 }
 
 .works {
@@ -47,9 +42,54 @@
     padding: 3em;
 }
 
-.work {
+.work-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.work{
     border: 2px solid red;
     background-color: white;
     margin: 2em;
     padding: 2em;
+}
+
+.work__title{
+    font-size: 1.5em;
+    margin-bottom: .5em;
+    font-weight: bold;
+}
+
+.genre-list{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    }
+
+.genre-items{
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.new-button{
+    background-color: rgb(182, 206, 182);
+}
+
+.btn-top {
+    background-color: rgb(150, 197, 150);
+    border: solid 1px black;
+}
+
+.work-form {
+    background-image: url("/home/tenntom/workspace/lit-client/src/logo 5.JPG");
+    padding: 3em;
+}
+
+.work-form-inside{
+    max-width: 1100px;
+    background-color: white;
+    border: 1px red solid;
+    padding: 3em;
 }

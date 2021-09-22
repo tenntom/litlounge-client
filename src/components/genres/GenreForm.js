@@ -61,9 +61,9 @@ export const GenreForm = () => {
                                 id: currentGenre.id,
                                 label: currentGenre.label,
                             })
-                                .then(() => history.push("/works"))
+                                .then(() => history.goBack())
                         }}
-                        className="btn btn-primary">Update</button>
+                        className="btn btn-tiny">Update</button>
 
                     : <button type="submit"
                         onClick={evt => {
@@ -75,14 +75,15 @@ export const GenreForm = () => {
                             }
 
                             createGenre(genre)
-                                .then(() => history.push("/works"))
+                                .then(() => history.goBack())
                         }}
-                        className="btn btn-primary">Create</button>
+                        className="btn btn-tiny">Create</button>
             }
 
             <button type="cancel" onClick={evt => {
+                evt.preventDefault()
                 history.goBack()
-            }}>cancel</button>
+            }} className="btn btn-tiny">cancel</button>
 
         </form>
     )
