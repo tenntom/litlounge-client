@@ -27,7 +27,7 @@ export const Login = () => {
                 if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem( "ll_token", res.token )
                     localStorage.setItem( "ll_username", username.current.value)
-                    history.push("/")
+                    history.push("/profile")
                 }
                 else {
                     invalidDialog.current.showModal()

@@ -75,6 +75,7 @@ export const WorkTypeForm = () => {
             }
 
             <button type="cancel" onClick={evt => {
+                evt.preventDefault()
                 history.goBack()
             }} className="btn btn-tiny">cancel</button>
         </form>

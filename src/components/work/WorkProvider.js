@@ -51,7 +51,7 @@ export const WorkProvider = (props) => {
     }
 
     const deleteWork = workId => {
-        return fetch(`http://localhost:8000/talks/${workId}`, {
+        return fetch(`http://localhost:8000/works/${workId}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("ll_token")}`,
             },
