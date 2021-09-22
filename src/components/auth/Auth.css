@@ -74,6 +74,11 @@ fieldset {
     margin: 1em;
     padding: 1em;
 }
+.host_talk {
+    border: 1px green solid;
+    margin: 1em;
+    padding: 1em;
+}
 
 .talk-section{
     border: 1px blue solid;
@@ -86,4 +91,8 @@ fieldset {
     max-height: 2em;
     background-color: rgb(182, 206, 182);
     font-size: 12px;
+}
+
+.profile-section{
+    justify-content: flex-start;
 }

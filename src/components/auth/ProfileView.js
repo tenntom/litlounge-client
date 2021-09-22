@@ -57,6 +57,15 @@ export const Profile = () => {
                                     <div>
                                         {host_talk.date} @ {host_talk.time}
                                     </div>
+                                    <div className="profile-section profile-add-materials">
+                                        Additional Materials:{host_talk.sup_materials}
+                                    </div>
+                                    <div className="profile-section zoom-field">
+                                        Mtg Id:{host_talk.zoom_meeting_id}
+                                    </div>
+                                    <div className="profile-section zoom-field">
+                                        Password:{host_talk.zoom_meeting_password}
+                                    </div>
                                     <div className="talk__edit">
                                         <button className="btn btn-edit-talk btn-tiny" onClick={e => history.push(`/talks/${host_talk.id}/edit`)}>
                                             Edit
@@ -68,7 +77,8 @@ export const Profile = () => {
                                         </button>
                                     </div> */}
                                 </div>
-                        )})
+                            )
+                        })
                     }
                 </div>
             </section>
@@ -80,12 +90,22 @@ export const Profile = () => {
                     {
                         profile.talks.map(talk => {
                             return <div key={talk.id} className="registration">
-                                <div className="registration_title">Title: {talk.title}</div>
-                                <div className="registration_host">Host: {talk.host.user.first_name} {talk.host.user.last_name}</div>
-                                <div className="registration_work">Work: {talk.work.title}</div>
-                                <div>{talk.description}</div>
+                                <div className="profile_title profile-section">Title: {talk.title}</div>
+                                <div className="profile-section profile_host">Host: {talk.host.user.first_name} {talk.host.user.last_name}</div>
+                                <div className="profile-work profile-section">Work: {talk.work.title} by {talk.work.author}</div>
+                                <div className="profile-work profile-section">Link: {talk.work.url_link}</div>
+                                <div className="profile-section profile-description">{talk.description}</div>
                                 <div>
                                     {talk.date} @ {talk.time}
+                                </div>
+                                <div className="profile-section profile-add-materials">
+                                    Additional Materials:{talk.sup_materials}
+                                </div>
+                                <div className="profile-section zoom-field">
+                                    Mtg Id:{talk.zoom_meeting_id}
+                                </div>
+                                <div className="profile-section zoom-field">
+                                    Password:{talk.zoom_meeting_password}
                                 </div>
                             </div>
                         })

@@ -173,7 +173,7 @@ export const TalkForm = () => {
                                     .then(() => history.push("/profile")
                                     )
                             }}
-                            className="btn btn-primary">Update</button>
+                            className="btn btn-tiny btn-primary">Update</button>
 
                         <div className="talk__delete">
                             <button className="btn btn-edit-talk btn-tiny" onClick={e => {
@@ -184,29 +184,39 @@ export const TalkForm = () => {
                             }}>
                                 Delete
                             </button>
+
+                            <button type="cancel" onClick={evt => {
+                                history.push("/profile")
+                            }} className="btn-tiny btn">Cancel</button>
+
                         </div>
                     </div>
-                    :<button type="submit"
-                        onClick={evt => {
-                            evt.preventDefault()
+                    : <div className="create-talk talk-btns">
+                        <button type="submit"
+                            onClick={evt => {
+                                evt.preventDefault()
 
-                            const talk = {
-                                hostId: parseInt(currentTalk.hostId),
-                                workId: parseInt(currentTalk.workId),
-                                title: currentTalk.title,
-                                date: currentTalk.date,
-                                time: currentTalk.time,
-                                description: currentTalk.description,
-                                supMaterials: currentTalk.supMaterials,
-                                zoomMeetingId: currentTalk.zoomMeetingId,
-                                zoomMeetingPassword: currentTalk.zoomMeetingPassword
-                            }
+                                const talk = {
+                                    hostId: parseInt(currentTalk.hostId),
+                                    workId: parseInt(currentTalk.workId),
+                                    title: currentTalk.title,
+                                    date: currentTalk.date,
+                                    time: currentTalk.time,
+                                    description: currentTalk.description,
+                                    supMaterials: currentTalk.supMaterials,
+                                    zoomMeetingId: currentTalk.zoomMeetingId,
+                                    zoomMeetingPassword: currentTalk.zoomMeetingPassword
+                                }
 
-                            createTalk(talk)
-                                .then(() => history.push("/talks"))
-                        }}
+                                createTalk(talk)
+                                    .then(() => history.push("/talks"))
+                            }}
 
-                        className="btn btn-primary">Create Talk</button>
+                            className="btn btn-primary">Create</button>
+                        <button type="cancel" onClick={evt => {
+                            history.goBack()
+                        }}>cancel</button>
+                    </div>
             }
 
         </form>

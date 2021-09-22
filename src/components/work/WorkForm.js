@@ -179,7 +179,6 @@ export const WorkForm = () => {
                         ? <div className="edit-buttons">
                             <button type="submit"
                                 onClick={evt => {
-                                    // Prevent form from being submitted
                                     evt.preventDefault()
                                     editWork({
                                         id: currentWork.id,
@@ -206,8 +205,6 @@ export const WorkForm = () => {
                                 </button>
                             </div>
                         </div>
-
-
                         : <button type="submit"
                             onClick={evt => {
                                 // Prevent form from being submitted
@@ -229,6 +226,9 @@ export const WorkForm = () => {
                             }}
                             className="btn btn-primary">Create</button>
                 }
+                <button type="cancel" onClick={evt => {
+                    history.goBack()
+                }}>cancel</button>
             </div>
 
         </form >
