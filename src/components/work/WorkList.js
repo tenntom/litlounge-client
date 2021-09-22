@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react"
 import { WorkContext } from "./WorkProvider.js"
 import { ProfileContext } from "../auth/ProfileProvider"
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
+import { ExternalLink } from "react-external-link"
 
 
 export const WorkList = (props) => {
@@ -29,7 +30,7 @@ export const WorkList = (props) => {
                         <div className="Work__description">Work Description: {work.description}</div>
                         <div className="Work__type">Work Type: {work.work_type.label}</div>
                         <div className="Work__identifier">Work Identifier: {work.identifier}</div>
-                        <div className="Work__urllink">URL Link: {work.url_link}</div>
+                        <div className="Work__urllink"><ExternalLink className="url_link" href={ work.url_link }>External Link</ExternalLink></div>
                         <div className="participants">
                             Genres:{" "} 
                             {

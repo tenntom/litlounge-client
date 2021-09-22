@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react"
 import { TalkContext } from "./TalkProvider.js"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import "./Talk.css"
 import "/home/tenntom/workspace/lit-client/src/index.css"
 

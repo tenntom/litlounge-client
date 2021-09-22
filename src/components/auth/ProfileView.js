@@ -4,6 +4,7 @@ import { TalkContext } from "../talk/TalkProvider"
 import { useHistory } from 'react-router-dom'
 import "./Auth.css"
 import "/home/tenntom/workspace/lit-client/src/index.css"
+import { ExternalLink } from "react-external-link"
 
 
 export const Profile = () => {
@@ -53,6 +54,8 @@ export const Profile = () => {
                                 <div key={host_talk.id} className="host_talk">
                                     <div className="host_talk_title">Title: {host_talk.title}</div>
                                     <div className="registration_work">Work: {host_talk.work.title}</div>
+                                    <div className="registration_work">Link: {host_talk.work.url_link}</div>
+                                    {/* <div className="Work__urllink"><ExternalLink className="url_link" href={ host_talk.work.url_link }>External Link</ExternalLink></div> */}
                                     <div>{host_talk.description}</div>
                                     <div>
                                         {host_talk.date} @ {host_talk.time}
@@ -93,14 +96,13 @@ export const Profile = () => {
                                 <div className="profile_title profile-section">Title: {talk.title}</div>
                                 <div className="profile-section profile_host">Host: {talk.host.user.first_name} {talk.host.user.last_name}</div>
                                 <div className="profile-work profile-section">Work: {talk.work.title} by {talk.work.author}</div>
+                                <div className="profile-urllink profile-section"><ExternalLink className="url_link" href={ talk.work.url_link }>External Link</ExternalLink></div>
                                 <div className="profile-work profile-section">Link: {talk.work.url_link}</div>
                                 <div className="profile-section profile-description">{talk.description}</div>
                                 <div>
                                     {talk.date} @ {talk.time}
                                 </div>
-                                <div className="profile-section profile-add-materials">
-                                    Additional Materials:{talk.sup_materials}
-                                </div>
+                                <div className="profile-sup-materials, profile-section"><ExternalLink className="url_link" href={ talk.sup_materials}>Additional Materials</ExternalLink></div>
                                 <div className="profile-section zoom-field">
                                     Mtg Id:{talk.zoom_meeting_id}
                                 </div>
