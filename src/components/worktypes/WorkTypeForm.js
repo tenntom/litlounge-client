@@ -55,7 +55,7 @@ export const WorkTypeForm = () => {
                                 id: currentWorkType.id,
                                 label: currentWorkType.label,
                             })
-                                .then(() => history.push("/works"))
+                                .then(() => history.goBack())
                         }}
                         className="btn btn-tiny">Update</button>
 
@@ -69,7 +69,8 @@ export const WorkTypeForm = () => {
                             }
 
                             createWorkType(WorkType)
-                                .then(() => history.push("/works"))
+                                .then(() => history.goBack()
+                                )
                         }}
                         className="btn btn-tiny">Create</button>
             }
@@ -78,6 +79,6 @@ export const WorkTypeForm = () => {
                 evt.preventDefault()
                 history.goBack()
             }} className="btn btn-tiny">cancel</button>
-        </form>
+        </form >
     )
 }

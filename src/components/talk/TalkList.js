@@ -62,7 +62,7 @@ export const TalkList = (props) => {
                                             day: 'numeric'
                                         })
                                 }
-                                @ {talk.time}
+                                @{talk.time}
                             </div>
                             <div className="participants">
                                 Participants:{" "}
