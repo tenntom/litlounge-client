@@ -71,6 +71,9 @@ export const WorkList = (props) => {
                                         : <div></div>
                                 }
                             </div>
+                            <div className="schedule-talk">
+                            <Link className="go-to-talk" to="/talks/new">Host Talk</Link>
+                            </div>
                         </section>
                     })
                 }

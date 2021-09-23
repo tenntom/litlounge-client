@@ -60,6 +60,10 @@
     margin-bottom: .5em;
     font-weight: bold;
 }
+.work__edit{
+    text-align: center;
+    margin-top: 1em;
+}
 
 .genre-list{
     display: flex;
@@ -116,3 +120,12 @@
     padding-right: 1em;
 }
 
+.go-to-talk{
+    font-size: small;
+    color: red;
+}
+
+.schedule-talk{
+    text-align: center;
+    margin-top: 1em;
+}
