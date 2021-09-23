@@ -12,6 +12,8 @@ import { GenreProvider } from "./genres/GenreProvider.js"
 import { GenreForm } from "./genres/GenreForm.js"
 import { WorkTypeProvider } from "./worktypes/WorkTypeProvider.js"
 import { WorkTypeForm } from "./worktypes/WorkTypeForm.js"
+import { TalkSearch } from "./talk/TalkSearch.js"
+import { WorkSearch } from "./work/WorkSearch.js"
 
 export const ApplicationViews = () => {
     return <>

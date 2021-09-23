@@ -1,36 +1,52 @@
-import React, { useContext, useEffect } from "react"
-import { WorkContext } from "./WorkProvider.js"
+import React, { useContext, useEffect, useState } from "react"
 import { ProfileContext } from "../auth/ProfileProvider"
+import { WorkContext } from "./WorkProvider.js"
+import { WorkSearch } from "./WorkSearch.js"
 import { useHistory, Link } from 'react-router-dom'
 import { ExternalLink } from "react-external-link"
 import "./Work.css"
 
 
 export const WorkList = (props) => {
-    const { works, getWorks } = useContext(WorkContext)
+    const { works, getWorks, workSearch } = useContext(WorkContext)
     const { profile, getProfile } = useContext(ProfileContext)
     const history = useHistory()
     const currentUsername = localStorage.getItem("ll_username")
+    const [filteredWorks, setFilteredWorks] = useState([])
 
 
     useEffect(() => {
         getWorks()
     }, [])
 
+    useEffect(() => {
+        if (workSearch !== "") {
+            const workSubset = works.filter(w => w.title.toLowerCase().includes(workSearch) || w.author.toLowerCase().includes(workSearch) || w.work_type.label.toLowerCase().includes(workSearch) || w.description.toLowerCase().includes(workSearch))
+            setFilteredWorks(workSubset)
+        } else {
+            setFilteredWorks(works)
+        }
+    }, [workSearch, works])
+
     return (
         <article className="works">
             <header className="works__header">
                 <h1>Lit Lounge Works</h1>
             </header>
-            <button className="btn btn-2 btn-top"
-                onClick={() => {
-                    history.push({ pathname: "/works/new" })
-                }}
-            >Add New Work</button>
+            <div className="page-top">
+                <button className="btn btn-top"
+                    onClick={() => {
+                        history.push({ pathname: "/works/new" })
+                    }}
+                >Add New Work</button>
+
+                <WorkSearch />
+            </div>
+
             <div className="work-list">
 
                 {
-                    works.map(work => {
+                    filteredWorks.map(work => {
                         return <section key={`work--${work.id}`} className="work">
                             <div className="work__title">{work.title}</div>
                             <div className="work__author">By {work.author}</div>
@@ -51,7 +67,7 @@ export const WorkList = (props) => {
                             <div className="work__edit">
                                 {
                                     work.posted_by.user.username === currentUsername
-                                        ? <button className="btn btn-3 btn-tiny" onClick={e => history.push(`/works/${work.id}/edit`)}>Edit</button>
+                                        ? <button className="btn btn-tiny btn-work" onClick={e => history.push(`/works/${work.id}/edit`)}>Edit</button>
                                         : <div></div>
                                 }
                             </div>

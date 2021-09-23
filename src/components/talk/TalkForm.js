@@ -21,8 +21,7 @@ export const TalkForm = () => {
         description: "",
         supMaterials: "",
         zoomMeetingId: "",
-        zoomMeetingPassword: "",
-        // participantIds: []
+        zoomMeetingPassword: ""
     })
 
     const { talkId } = useParams()
