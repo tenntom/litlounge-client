@@ -79,10 +79,12 @@ export const TalkProvider = (props) => {
         .then(getTalks)
     }
 
+    const [ searchTerms, setSearchTerms ] = useState("")
+
     
 
     return (
-        <TalkContext.Provider value={{ talks, getTalks, createTalk, getTalkById, editTalk, deleteTalk, joinTalk, leaveTalk}} >
+        <TalkContext.Provider value={{ talks, getTalks, createTalk, getTalkById, editTalk, deleteTalk, joinTalk, leaveTalk, searchTerms, setSearchTerms}} >
             { props.children }
         </TalkContext.Provider>
     )
