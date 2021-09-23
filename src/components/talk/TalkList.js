@@ -16,7 +16,7 @@ export const TalkList = (props) => {
 
     useEffect(() => {
         if (searchTerms !== "") {
-            const subset = talks.filter(t => t.title.toLowerCase().includes(searchTerms))
+            const subset = talks.filter(t => t.title.toLowerCase().includes(searchTerms) || t.work.title.toLowerCase().includes(searchTerms) || t.description.toLowerCase().includes(searchTerms) || t.work.author.toLowerCase().includes(searchTerms))
             setFiltered(subset)
         } else {
             setFiltered(talks)

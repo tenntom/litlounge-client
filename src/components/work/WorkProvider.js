@@ -4,8 +4,6 @@ export const WorkContext = React.createContext()
 
 export const WorkProvider = (props) => {
     const [works, setWorks] = useState([])
-    // const [workTypes, setTypes] = useState([])
-    // const [genres, setGenres] = useState([])
 
     const getWorks = () => {
         return fetch("http://localhost:8000/works", {

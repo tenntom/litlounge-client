@@ -21,7 +21,7 @@ export const WorkList = (props) => {
 
     useEffect(() => {
         if (workSearch !== "") {
-            const workSubset = works.filter(w => w.title.toLowerCase().includes(workSearch))
+            const workSubset = works.filter(w => w.title.toLowerCase().includes(workSearch) || w.author.toLowerCase().includes(workSearch) || w.work_type.label.toLowerCase().includes(workSearch) || w.description.toLowerCase().includes(workSearch))
             setFilteredWorks(workSubset)
         } else {
             setFilteredWorks(works)
@@ -67,7 +67,7 @@ export const WorkList = (props) => {
                             <div className="work__edit">
                                 {
                                     work.posted_by.user.username === currentUsername
-                                        ? <button className="btn btn-3 btn-tiny" onClick={e => history.push(`/works/${work.id}/edit`)}>Edit</button>
+                                        ? <button className="btn btn-tiny btn-work" onClick={e => history.push(`/works/${work.id}/edit`)}>Edit</button>
                                         : <div></div>
                                 }
                             </div>
