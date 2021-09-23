@@ -9,15 +9,10 @@ export const GenreForm = () => {
     const history = useHistory()
 
     const { genres, setGenres, getGenres, getGenreById, createGenre, editGenre } = useContext(GenreContext)
-    // const { getWorks, works } = useContext(WorkContext)
 
     const [currentGenre, setCurrentGenre] = useState({
         label: ""
     })
-
-    // useEffect(() => {
-    //     getWorks()
-    // }, [])
 
     const { genreId } = useParams()
 

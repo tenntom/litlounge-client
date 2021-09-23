@@ -17,7 +17,9 @@ export const TalkList = (props) => {
 
     useEffect(() => {
         let today = new Date()
-        const theseActiveTalks = talks.filter(talk => new Date(talk.date) >= today)
+        let yesterday = new Date()
+        yesterday.setDate(today.getDate(-1))
+        const theseActiveTalks = talks.filter(talk => new Date(talk.date.split('-')) >= yesterday)
         const theseSortedTalks = theseActiveTalks.sort((a, b) => new Date(a.date) - new Date(b.date))
         setCurrentTalks(theseSortedTalks)
     }, [talks])
@@ -54,12 +56,13 @@ export const TalkList = (props) => {
                             <div>Host: {talk.host.user.first_name} {talk.host.user.last_name}</div>
                             <div>
                                 {
-                                    new Date(talk.date).toLocaleDateString("en-US",
+                                    new Date(talk.date.split('-')).toLocaleDateString("en-US",
                                         {
                                             weekday: 'long',
                                             year: 'numeric',
                                             month: 'long',
-                                            day: 'numeric'
+                                            day: 'numeric',
+                                            timeZone: 'America/Chicago'
                                         })
                                 }
                                 @{talk.time}
