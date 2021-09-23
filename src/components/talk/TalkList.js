@@ -7,6 +7,7 @@ import "/home/tenntom/workspace/lit-client/src/index.css"
 
 export const TalkList = (props) => {
     const { talks, getTalks, joinTalk, leaveTalk, searchTerms } = useContext(TalkContext)
+    const [currentTalks, setCurrentTalks] = useState([])
     const [filteredTalks, setFiltered] = useState([])
     const history = useHistory()
 
@@ -15,13 +16,20 @@ export const TalkList = (props) => {
     }, [])
 
     useEffect(() => {
+        let today = new Date()
+        const theseActiveTalks = talks.filter(talk => new Date(talk.date) >= today)
+        const theseSortedTalks = theseActiveTalks.sort((a, b) => new Date(a.date) - new Date(b.date))
+        setCurrentTalks(theseSortedTalks)
+    }, [talks])
+
+    useEffect(() => {
         if (searchTerms !== "") {
-            const subset = talks.filter(t => t.title.toLowerCase().includes(searchTerms) || t.work.title.toLowerCase().includes(searchTerms) || t.description.toLowerCase().includes(searchTerms) || t.work.author.toLowerCase().includes(searchTerms))
+            const subset = currentTalks.filter(t => t.title.toLowerCase().includes(searchTerms) || t.work.title.toLowerCase().includes(searchTerms) || t.description.toLowerCase().includes(searchTerms) || t.work.author.toLowerCase().includes(searchTerms))
             setFiltered(subset)
         } else {
-            setFiltered(talks)
+            setFiltered(currentTalks)
         }
-    }, [searchTerms, talks])
+    }, [searchTerms, currentTalks])
 
     return (
         <article className="talks">
