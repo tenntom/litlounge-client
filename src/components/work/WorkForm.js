@@ -93,7 +93,7 @@ export const WorkForm = () => {
 
                 <fieldset>
                     <div className="form-group">
-                        <label htmlFor="author">Author: </label>
+                        <label htmlFor="author">Creator: </label>
                         <input type="text" name="author" required autoFocus className="form-control"
                             value={currentWork.author}
                             onChange={handleControlledInputChange}
