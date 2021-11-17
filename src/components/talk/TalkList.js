@@ -16,11 +16,16 @@ export const TalkList = (props) => {
     }, [])
 
     useEffect(() => {
-        let today = new Date()
-        let yesterday = new Date()
-        yesterday.setDate(today.getDate(-1))
-        const theseActiveTalks = talks.filter(talk => new Date(talk.date.split('-')) >= yesterday)
-        const theseSortedTalks = theseActiveTalks.sort((a, b) => new Date(a.date) - new Date(b.date))
+        // ORIGINAL FROM CAPSTONE
+        // let today = new Date()
+        // let yesterday = new Date()
+        // yesterday.setDate(today.getDate(-1))
+        // const theseActiveTalks = talks.filter(talk => new Date(talk.date.split('-')) >= yesterday)
+        // const theseSortedTalks = theseActiveTalks.sort((a, b) => new Date(a.date) - new Date(b.date))
+        
+        //NOW REMOVING FILTERS SO PAST DATES SHOW UP
+        const theseSortedTalks = talks.sort((a, b) => new Date(a.date) - new Date(b.date))
+        
         setCurrentTalks(theseSortedTalks)
     }, [talks])
 
